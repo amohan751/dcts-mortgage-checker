@@ -1,0 +1,21 @@
+package com.amohan.mortymeter.model.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Data;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+
+@Data
+@Entity
+public class MortgageRate {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private int maturityPeriod;
+    private BigDecimal interestRate;
+    private Timestamp timeStamp;
+}
