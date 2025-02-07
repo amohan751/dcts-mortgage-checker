@@ -36,7 +36,7 @@ public class MortgageCalculator {
                     loanValue.compareTo(homeValue) <= 0;
             if (feasible) {
                 MortgageRate rate = mortgageRateRepository.findByMaturityPeriod(mortgageRequest.getMaturityPeriod());
-                BigDecimal interestRate = rate.getInterestRate().divide(ONE_HUNDRED);
+                BigDecimal interestRate = rate.getInterestRate().divide(ONE_HUNDRED, 5, RoundingMode.HALF_UP);
                 BigDecimal monthlyInterestRate = interestRate.divide(MONTH_IN_AN_YEAR,15, RoundingMode.HALF_UP);
                 
                 BigDecimal numerator = monthlyInterestRate.multiply((BigDecimal.ONE.add(monthlyInterestRate)).pow(maturityPeriod));
