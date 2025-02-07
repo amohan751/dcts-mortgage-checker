@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import static com.amohan.mortymeter.constants.MortgageConstants.INCOME_MULTIPLIER;
+import static com.amohan.mortymeter.constants.MortgageConstants.ONE_HUNDRED;
+import static com.amohan.mortymeter.constants.MortgageConstants.MONTH_IN_AN_YEAR;
 
 
 @Service
@@ -34,11 +36,12 @@ public class MortgageCalculator {
                     loanValue.compareTo(homeValue) <= 0;
             if (feasible) {
                 MortgageRate rate = mortgageRateRepository.findByMaturityPeriod(mortgageRequest.getMaturityPeriod());
-                BigDecimal monthlyInterestRate = rate.getInterestRate();
-                monthlyCost = loanValue.multiply(
-                        monthlyInterestRate.multiply((BigDecimal.ONE.add(monthlyInterestRate)).pow(maturityPeriod))
-                                .divide((BigDecimal.ONE.add(monthlyInterestRate).pow(maturityPeriod)).subtract(BigDecimal.ONE), 2, RoundingMode.HALF_UP)
-                );
+                BigDecimal interestRate = rate.getInterestRate().divide(ONE_HUNDRED);
+                BigDecimal monthlyInterestRate = interestRate.divide(MONTH_IN_AN_YEAR,15, RoundingMode.HALF_UP);
+                
+                BigDecimal numerator = monthlyInterestRate.multiply((BigDecimal.ONE.add(monthlyInterestRate)).pow(maturityPeriod));
+                BigDecimal denominator = (BigDecimal.ONE.add(monthlyInterestRate)).pow(maturityPeriod).subtract(BigDecimal.ONE);
+                monthlyCost = loanValue.multiply(numerator).divide(denominator, 2, RoundingMode.HALF_UP);
             }
         } catch (Exception e) {
             log.error("An error occurred while calculating the mortgage: {}", e.getMessage(), e);

@@ -2,30 +2,20 @@ package com.amohan.mortymeter.service;
 
 import com.amohan.mortymeter.model.MortgageRequest;
 import com.amohan.mortymeter.model.MortgageResponse;
-import com.amohan.mortymeter.model.entity.MortgageRate;
-import com.amohan.mortymeter.repository.MortgageRateRepository;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Arrays;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+
+@SpringBootTest
+@ActiveProfiles("test")
 public class MortgageCalculatorTest {
 
-    @Mock
-    private MortgageRateRepository mortgageRateRepository;
-
-    @InjectMocks
+    @Autowired
     private MortgageCalculator mortgageCalculator;
 
 

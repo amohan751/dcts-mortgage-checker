@@ -19,5 +19,9 @@ public class MortgageRate {
     private long id;
     private int maturityPeriod;
     private BigDecimal interestRate;
-    private Timestamp timeStamp;
+    private Timestamp lastUpdate;
+
+    // No-argument constructor for H2
+    public MortgageRate() {
+    }
 }

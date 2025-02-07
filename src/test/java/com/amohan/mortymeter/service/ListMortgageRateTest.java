@@ -28,13 +28,11 @@ public class ListMortgageRateTest {
 
     @BeforeEach
     public void setUp() {
+        mortgageRateRepository.deleteAll();
         MortgageRate rate1 = new MortgageRate(1L,10, BigDecimal.valueOf(5.50), new Timestamp(System.currentTimeMillis()));
         MortgageRate rate2 = new MortgageRate(2L,15, BigDecimal.valueOf(4.70), new Timestamp(System.currentTimeMillis()));
         MortgageRate rate3 = new MortgageRate(3L,20, BigDecimal.valueOf(4.20), new Timestamp(System.currentTimeMillis()));
         when(mortgageRateRepository.findAll()).thenReturn(Arrays.asList(rate1, rate2, rate3));
-        when(mortgageRateRepository.findByMaturityPeriod(10)).thenReturn(rate1);
-        when(mortgageRateRepository.findByMaturityPeriod(15)).thenReturn(rate2);
-        when(mortgageRateRepository.findByMaturityPeriod(20)).thenReturn(rate3);
     }
 
     @Test
