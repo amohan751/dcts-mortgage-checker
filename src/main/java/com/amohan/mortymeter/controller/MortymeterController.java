@@ -5,9 +5,11 @@ import com.amohan.mortymeter.model.MortgageResponse;
 import com.amohan.mortymeter.model.entity.MortgageRate;
 import com.amohan.mortymeter.service.ListMortgageRate;
 import com.amohan.mortymeter.service.MortgageCalculator;
+import com.amohan.mortymeter.utils.MortgageRequestValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -26,6 +28,12 @@ public class MortymeterController {
 
     @PostMapping("/mortgage-check")
     public MortgageResponse checkMortgage(@RequestBody MortgageRequest request){
+        if (!MortgageRequestValidator.isValidMortgageRequest(request)) {
+            MortgageResponse response = new MortgageResponse();
+            response.setFeasible(false);
+            response.setMonthlyCost(BigDecimal.ZERO);
+            return response;
+        }
         return mortgageCalculator.checkMortgageAndEligibility(request);
     }
 }
